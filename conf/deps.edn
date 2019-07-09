@@ -1,0 +1,4 @@
+{:own [kunagi/modelion-api
+       kunagi/mui-commons]
+
+ :foreign {}}
