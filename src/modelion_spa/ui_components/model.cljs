@@ -1,5 +1,7 @@
 (ns modelion-spa.ui-components.model
   (:require
+   ["@material-ui/core" :as mui]
+   [re-frame.core :as rf]
    [mui-commons.components :as muic]
    [mui-commons.nested-paperscraps :as nps]
    [modelion-spa.ui-components.commons :as c]))
@@ -7,27 +9,16 @@
 
 (defn Module
   [module]
-  [:div
-   [:span
-    {:style {:font-weight :normal
-             :font-family :monospace
-             :margin-right "1em"}}
-    (str (-> module :module/ident))]
-
-   (-> module :modeling/name)
-
-   (when-let [doc (-> module :modeling/doc)]
-     [:span
-      {:style {:font-weight :normal
-               :margin-left "1em"}}
-      doc])])
+  [c/Entity-Paper
+   {:entity module
+    :target-view :module}])
 
 
 (defn Model
   [model]
   [:div
-   [nps/Sequence
-    {:elements
-     (map
-      (fn [module] [Module module])
-      (-> model :model/modules))}]])
+   [c/Entity-Paper
+    {:entity model}
+    [c/Papers-List Module (-> model :model/modules)]]])
+   ;; [:hr]
+   ;; [nps/Data model]])

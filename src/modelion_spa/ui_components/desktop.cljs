@@ -6,21 +6,23 @@
    ["@material-ui/core/colors" :as mui-colors]
    [re-frame.core :as rf]
    [mui-commons.components :as muic]
-   [modelion-spa.ui-components.model :refer [Model]]))
-
-
-
+   [modelion-spa.ui-components.model :refer [Model]]
+   [modelion-spa.ui-components.module :refer [Module]]))
 
 
 (defn Navigator
   []
-  (let [view   @(rf/subscribe [:modelion/navigator-view])
-        entity @(rf/subscribe [:moelion/navigator-entity])]
+  (let [navigator  @(rf/subscribe [:modelion/navigator])
+        view (:view navigator)
+        entity (:entity navigator)]
     [:div
+     ;[muic/Data entity]
      [:h4
-      "Modelion Navigator "
-      view
-      [Model entity]]]))
+      "Modelion Navigator " (str view)
+      (case view
+        :model [Model entity]
+        :module [Module entity]
+        [:div (str "Unsupported view: " view)])]]))
 
 
 (def palette
@@ -44,4 +46,6 @@
    [:> mui/CssBaseline]
    [:> mui/MuiThemeProvider
     {:theme base-theme}
-    [Navigator]]])
+    [:div
+     {:style {:padding "10px"}}
+     [Navigator]]]])

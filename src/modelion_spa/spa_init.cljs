@@ -1,7 +1,9 @@
 (ns modelion-spa.spa-init
   (:require
    [reagent.core :as r]
+   [re-frame.core :as rf]
    [modelion-spa.ui-components.desktop :refer [Desktop]]
+   [modelion-spa.events]
    [modelion-spa.subscriptions]))
 
 
@@ -13,10 +15,15 @@
     (set! (.-href link) "https://fonts.googleapis.com/css?family=Roboto:300,400,500")
     (.appendChild head link)))
 
+
 (defn mount-app
   []
   (r/render [Desktop] (.getElementById js/document "app")))
 
 
-(install-roboto-css)
-(mount-app)
+(defonce init
+  ((fn []
+    (install-roboto-css)
+    (mount-app)
+    (rf/dispatch [:modelion/init])
+    :initialized)))
