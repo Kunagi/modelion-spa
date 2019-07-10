@@ -5,24 +5,9 @@
    ["@material-ui/core/styles" :refer [createMuiTheme withStyles]]
    ["@material-ui/core/colors" :as mui-colors]
    [re-frame.core :as rf]
+
    [mui-commons.components :as muic]
-   [modelion-spa.ui-components.model :refer [Model]]
-   [modelion-spa.ui-components.module :refer [Module]]))
-
-
-(defn Navigator
-  []
-  (let [navigator  @(rf/subscribe [:modelion/navigator])
-        view (:view navigator)
-        entity (:entity navigator)]
-    [:div
-     ;[muic/Data entity]
-     [:h4
-      "Modelion Navigator " (str view)
-      (case view
-        :model [Model entity]
-        :module [Module entity]
-        [:div (str "Unsupported view: " view)])]]))
+   [modelion-spa.ui-components.navigator :refer [Navigator]]))
 
 
 (def palette
@@ -37,6 +22,7 @@
             :typography {:useNextVariants true}})
 
 (def base-theme (createMuiTheme (clj->js theme)))
+
 
 (defn Desktop
   []
