@@ -3,7 +3,7 @@
    [facts-db.api :as db]))
 
 
-(def model-id "model:root")
+(def model-id "model")
 
 
 (defn new-navigator
@@ -20,7 +20,8 @@
     :model (db/tree model-db entity-id {:model/modules {}})
 
     :module (db/tree model-db entity-id {:module/resources {}
-                                         :module/resource-loaders {}})
+                                         :module/ajax-resource-loaders {}
+                                         :module/ui-components {}})
 
     nil))
 

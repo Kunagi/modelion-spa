@@ -7,20 +7,6 @@
    [modelion-spa.ui-components.commons :as c]))
 
 
-(defn Resource
-  [resource]
-  [c/Entity-Paper
-   {:entity resource
-    :target-view :resource}])
-
-
-(defn ResourceLoader
-  [resource-loader]
-  [c/Entity-Paper
-   {:entity resource-loader
-    :target-view :resource-loader}])
-
-
 (defn Module
   [module]
   [:div
@@ -28,16 +14,23 @@
     {:entity module}
     [:div
 
-     [c/Labeled
-      {:text "resources"}
-      [c/Papers-List Resource (-> module :module/resources)]]
+     [c/Labeled-Entities-List
+      {:label "Resources"
+       :entities (-> module :module/resources)
+       :target-view :resource}]
+
+     [c/Labeled-Entities-List
+      {:label "AJAX Resource Loaders"
+       :entities (-> module :module/ajax-resource-loaders)
+       :target-view :ajax-resource-loader}]
+
+     [c/Labeled-Entities-List
+      {:label "UI Components"
+       :entities (-> module :module/ui-components)
+       :target-view :ui-component}]
 
      [c/Labeled
-      {:text "resource loaders"}
-      [c/Papers-List ResourceLoader (-> module :module/resource-loaders)]]
-
-     [c/Labeled
-      {:text "data"}
+      {:text "Data"}
       [muic/Data module]]]]])
     ;[c/Papers-List Module (-> model :model/modules)]]])
   ;; [:hr]

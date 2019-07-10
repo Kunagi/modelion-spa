@@ -86,3 +86,19 @@
    [Label
     {:text text}]
    [:div content]])
+
+
+
+
+(defn Labeled-Entities-List
+  [{:keys [label
+           entities
+           target-view]}]
+  [Labeled
+   {:text label}
+   [Papers-List
+    (fn [entity]
+      [Entity-Paper
+       {:entity entity
+        :target-view target-view}])
+    entities]])
