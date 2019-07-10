@@ -19,14 +19,13 @@
       :on-click #(rf/dispatch goto-event)}
      text]
     [:div
-     {:style {:font-weight 800}}
      text]))
 
 
 (defn Breadcrumbs
   [navigator]
   [:> mui/Paper
-   {:style {:padding "5px"}}
+   {:style {:padding "10px"}}
    (into
     [:> mui/Breadcrumbs
      {:separator "›"}]
@@ -44,8 +43,6 @@
     (if-not navigator
       [:div "Loading..."]
       [:div
-       [:h4
-        "Modelion Navigator " (str view)]
        [Breadcrumbs navigator]
        [:br]
        (case view
