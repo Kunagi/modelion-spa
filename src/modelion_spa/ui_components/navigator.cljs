@@ -47,6 +47,7 @@
        [:h4
         "Modelion Navigator " (str view)]
        [Breadcrumbs navigator]
+       [:br]
        (case view
          :model [Model entity]
          :module [Module entity]

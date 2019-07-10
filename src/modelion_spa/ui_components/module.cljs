@@ -1,6 +1,8 @@
 (ns modelion-spa.ui-components.module
   (:require
    ["@material-ui/core" :as mui]
+   ["@material-ui/icons" :as icons]
+   [reagent.core :as r]
    [re-frame.core :as rf]
    [mui-commons.components :as muic]
    [mui-commons.nested-paperscraps :as nps]
@@ -13,31 +15,58 @@
   [muic/Data entity])
 
 
+(defn ExpansionPanelsAttribute
+  [label entities details-component-fn]
+  [:div
+   [c/Label label]
+   (into
+    [:div]
+    (map
+     (fn [entity]
+       [:> mui/ExpansionPanel
+        [:> mui/ExpansionPanelSummary
+         {:expand-icon (r/as-element [:> icons/ExpandMore])}
+         (-> entity :modeling/name)]
+        [:> mui/ExpansionPanelDetails
+         [details-component-fn entity]]])
+     entities))])
+
+
+(defn Resource-Details
+  [resource]
+  (muic/Data resource))
+
+
+(defn AjaxResourceLoader-Details
+  [loader]
+  (muic/Data loader))
+
+
+(defn UiComponent-Details
+  [uic]
+  (muic/Data uic))
+
+
 (defn Module
   [module]
-  [:div
-   [c/Entity-Paper
-    {:entity module}
-    [:div
+  [:> mui/Paper
+   {:style {:padding "10px"}}
 
-     [c/Labeled-Entities-List
-      {:label "Resources"
-       :entities (-> module :module/resources)
-       :expansion-content-component-fn Entity-Data}]
+   [:div
+    {:style {:display :grid
+             :grid-gap "1em"}}
 
-     [c/Labeled-Entities-List
-      {:label "AJAX Resource Loaders"
-       :entities (-> module :module/ajax-resource-loaders)
-       :expansion-content-component-fn Entity-Data}]
+    [ExpansionPanelsAttribute
+     "Resources"
+     (-> module :module/resources)
+     Resource-Details]
 
-     [c/Labeled-Entities-List
-      {:label "UI Components"
-       :entities (-> module :module/ui-components)
-       :expansion-content-component-fn Entity-Data}]]]])
+    [ExpansionPanelsAttribute
+     "AJAX Resource Loaders"
+     (-> module :module/ajax-resource-loaders)
+     AjaxResourceLoader-Details]
 
-     ;; [c/Labeled
-     ;;  {:text "Data"}
-     ;;  [muic/Data module]]]]])
-    ;[c/Papers-List Module (-> model :model/modules)]]])
-  ;; [:hr]
-  ;; [nps/Data model]])
+    [ExpansionPanelsAttribute
+     "UI Components"
+     (-> module :module/ui-components)
+     UiComponent-Details]]])

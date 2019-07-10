@@ -4,119 +4,12 @@
    ["@material-ui/core" :as mui]))
 
 
-(def spacer-size 5)
-(def spacer-unit "px")
-
-
-(defn deep-merge [v & vs]
-  (letfn [(rec-merge [v1 v2]
-            (if (and (map? v1) (map? v2))
-              (merge-with deep-merge v1 v2)
-              v2))]
-    (when (some identity vs)
-      (reduce #(rec-merge %1 %2) v vs))))
-
-
-(defn spacer [count]
-  (str (* count spacer-size) spacer-unit))
-
-
-(defn Paperscrap
-  [options content]
-  [:> mui/Paper
-   (deep-merge
-    {:style {:padding (spacer 1)
-             :margin (spacer 1)}}
-    options)
-   content])
-
-
-(defn entity-paper-options-for-target-view
-  [entity target-view]
-  (if target-view
-    {:style {:cursor :pointer}
-     :on-click #(rf/dispatch [:modelion/activate-view
-                              {:view target-view
-                               :entity-id (:db/id entity)}])}
-    {}))
-
-(defn entity-paper-options-for-expansion
-  [entity expansion-content-component-fn]
-  (if expansion-content-component-fn
-    {:style {:cursor :pointer}
-     :on-click #(rf/dispatch [:modelion/expand-entity
-                              {:entity-id (:db/id entity)}])}
-    {}))
-
-(defn Entity-Paper
-  [{:keys [entity
-           target-view
-           expansion-content-component-fn]
-    :as options}
-   content]
-  (let [entity-id (-> entity :db/id)
-        modeling-name (or (-> entity :modeling/name)
-                          entity-id)]
-    [Paperscrap
-     (merge
-      (entity-paper-options-for-target-view entity target-view)
-      (entity-paper-options-for-expansion entity expansion-content-component-fn))
-     [:div
-      {:style {:font-weight 500}}
-      modeling-name
-      [:div
-       content]
-      (when (and expansion-content-component-fn
-                 (= entity-id (-> @(rf/subscribe [:modelion/navigator]) :expanded-entity-id)))
-        [:div
-         [expansion-content-component-fn options]])]]))
-
-
-(defn Papers-List
-  [entity-component
-   entities]
-  (into
-   [:div
-    {:style {:margin "-5px"}}]
-   (mapv
-    (fn [entity]
-      [entity-component
-       entity])
-    entities)))
-
-
 (defn Label
-  [{:keys [text]}]
-  [:div
-   {:style {:font-color :grey
-            :font-weight :normal
-            :font-style :italic}}
+  [text]
+  ;; [:div
+  ;;  {:style {:font-color :grey
+  ;;           :font-weight :normal
+  ;;           :font-style :italic}}
+  [:> mui/Typography
+   {:variant :caption}
    (str text)])
-
-
-(defn Labeled
-  [{:keys [text]}
-   content]
-  [:div
-   {:style {:padding (spacer 1)}}
-   [Label
-    {:text text}]
-   [:div content]])
-
-
-
-
-(defn Labeled-Entities-List
-  [{:keys [label
-           entities
-           target-view
-           expansion-content-component-fn]}]
-  [Labeled
-   {:text label}
-   [Papers-List
-    (fn [entity]
-      [Entity-Paper
-       {:entity entity
-        :target-view target-view
-        :expansion-content-component-fn expansion-content-component-fn}])
-    entities]])

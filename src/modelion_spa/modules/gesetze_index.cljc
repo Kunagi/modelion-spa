@@ -24,6 +24,7 @@
     {:resource "6566ed48-0e48-4cd7-9028-aec185e7e082"
      :ajax-resource-loader
      {:db/id "835299de-ce86-4a7c-9ac9-4293a7514dac"
+      :modeling/name "index.edn"
       :ajax-resource-loader/module "a5ccab6c-2d71-4bde-93f5-3a231d8727e6"
       :ajax-resource-loader/url "/data/gesetze/index.edn"
       :ajax-resource-loader/load-on-startup true

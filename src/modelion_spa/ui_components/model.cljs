@@ -7,18 +7,17 @@
    [modelion-spa.ui-components.commons :as c]))
 
 
-(defn Module
-  [module]
-  [c/Entity-Paper
-   {:entity module
-    :target-view :module}])
-
-
 (defn Model
   [model]
   [:div
-   [c/Entity-Paper
-    {:entity model}
-    [c/Papers-List Module (-> model :model/modules)]]])
-   ;; [:hr]
-   ;; [nps/Data model]])
+   [:> mui/Paper
+    (into
+     [:> mui/MenuList]
+     (map
+      (fn [module]
+        [:> mui/MenuItem
+         {:on-click #(rf/dispatch [:modelion/activate-view
+                                   {:view :module
+                                    :entity-id (-> module :db/id)}])}
+         (-> module :modeling/name)])
+      (-> model :model/modules)))]])
