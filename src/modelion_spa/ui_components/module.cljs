@@ -7,6 +7,12 @@
    [modelion-spa.ui-components.commons :as c]))
 
 
+(defn Entity-Data
+  [{:keys [entity
+           target-view]}]
+  [muic/Data entity])
+
+
 (defn Module
   [module]
   [:div
@@ -17,21 +23,21 @@
      [c/Labeled-Entities-List
       {:label "Resources"
        :entities (-> module :module/resources)
-       :target-view :resource}]
+       :expansion-content-component-fn Entity-Data}]
 
      [c/Labeled-Entities-List
       {:label "AJAX Resource Loaders"
        :entities (-> module :module/ajax-resource-loaders)
-       :target-view :ajax-resource-loader}]
+       :expansion-content-component-fn Entity-Data}]
 
      [c/Labeled-Entities-List
       {:label "UI Components"
        :entities (-> module :module/ui-components)
-       :target-view :ui-component}]
+       :expansion-content-component-fn Entity-Data}]]]])
 
-     [c/Labeled
-      {:text "Data"}
-      [muic/Data module]]]]])
+     ;; [c/Labeled
+     ;;  {:text "Data"}
+     ;;  [muic/Data module]]]]])
     ;[c/Papers-List Module (-> model :model/modules)]]])
   ;; [:hr]
   ;; [nps/Data model]])

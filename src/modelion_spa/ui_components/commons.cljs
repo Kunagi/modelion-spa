@@ -40,20 +40,36 @@
                                :entity-id (:db/id entity)}])}
     {}))
 
+(defn entity-paper-options-for-expansion
+  [entity expansion-content-component-fn]
+  (if expansion-content-component-fn
+    {:style {:cursor :pointer}
+     :on-click #(rf/dispatch [:modelion/expand-entity
+                              {:entity-id (:db/id entity)}])}
+    {}))
 
 (defn Entity-Paper
   [{:keys [entity
-           target-view]}
+           target-view
+           expansion-content-component-fn]
+    :as options}
    content]
-  (let [modeling-name (or (-> entity :modeling/name)
-                          (-> entity :db/id))]
+  (let [entity-id (-> entity :db/id)
+        modeling-name (or (-> entity :modeling/name)
+                          entity-id)]
     [Paperscrap
-     (entity-paper-options-for-target-view entity target-view)
+     (merge
+      (entity-paper-options-for-target-view entity target-view)
+      (entity-paper-options-for-expansion entity expansion-content-component-fn))
      [:div
       {:style {:font-weight 500}}
       modeling-name
       [:div
-       content]]]))
+       content]
+      (when (and expansion-content-component-fn
+                 (= entity-id (-> @(rf/subscribe [:modelion/navigator]) :expanded-entity-id)))
+        [:div
+         [expansion-content-component-fn options]])]]))
 
 
 (defn Papers-List
@@ -93,12 +109,14 @@
 (defn Labeled-Entities-List
   [{:keys [label
            entities
-           target-view]}]
+           target-view
+           expansion-content-component-fn]}]
   [Labeled
    {:text label}
    [Papers-List
     (fn [entity]
       [Entity-Paper
        {:entity entity
-        :target-view target-view}])
+        :target-view target-view
+        :expansion-content-component-fn expansion-content-component-fn}])
     entities]])

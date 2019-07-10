@@ -22,3 +22,9 @@
    (let [model-db (get db :modelion/model-db)]
      (-> db
          (update :modelion/navigator navigator/activate-view model-db view entity-id)))))
+
+
+(rf/reg-event-db
+ :modelion/expand-entity
+ (fn [db [_ {:keys [entity-id]}]]
+   (assoc-in db [:modelion/navigator :expanded-entity-id] entity-id)))
