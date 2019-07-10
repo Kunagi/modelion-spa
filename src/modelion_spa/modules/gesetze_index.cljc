@@ -36,12 +36,12 @@
       :ui-component/module "a5ccab6c-2d71-4bde-93f5-3a231d8727e6"
       :modeling/name "Index aller Gesetze"
       :modeling/doc "Liste aller Gesetze. Kontext, Kürzel, Bezeichnung. Filterbar. Download-Status jedes Gesetzes."
-      :ui-component/ident :index}}]])
+      :ui-component/ident :index}}]
 
 
-   ;; [:ui-component--added--subscription
-   ;;  {:ui-component "c9aa30e1-e454-4bad-85da-05e7b518ca9e"
-   ;;   :subscription "6566ed48-0e48-4cd7-9028-aec185e7e082"}]
+   [:ui-component--added--subscription
+    {:ui-component "c9aa30e1-e454-4bad-85da-05e7b518ca9e"
+     :subscription "6566ed48-0e48-4cd7-9028-aec185e7e082"}]])
 
 
    ;; [:page--defined
