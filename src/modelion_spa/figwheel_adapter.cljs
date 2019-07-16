@@ -5,6 +5,7 @@
 
 (defn ^:after-load on-figwheel-after-load []
   (.log js/console "!!! on-figwheel-after-load")
+  (init/init-graphed)
   (init/mount-app))
 
 (on-figwheel-after-load)

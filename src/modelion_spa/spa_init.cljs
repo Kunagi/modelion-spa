@@ -2,9 +2,13 @@
   (:require
    [reagent.core :as r]
    [re-frame.core :as rf]
+
+   [modelion-spa.graphed-integration :as graphed-integration]
    [modelion-spa.ui-components.desktop :refer [Desktop]]
    [modelion-spa.events]
    [modelion-spa.subscriptions]))
+
+
 
 
 (defn install-roboto-css []
@@ -21,9 +25,16 @@
   (r/render [Desktop] (.getElementById js/document "app")))
 
 
+(defn init-graphed
+  []
+  (graphed-integration/init))
+
+
+
 (defonce init
   ((fn []
-    (install-roboto-css)
-    (mount-app)
-    (rf/dispatch [:modelion/init])
-    :initialized)))
+     (install-roboto-css)
+     (init-graphed)
+     (rf/dispatch [:modelion/init])
+     (mount-app)
+     :initialized)))

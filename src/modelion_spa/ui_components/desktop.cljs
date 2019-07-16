@@ -6,6 +6,8 @@
    ["@material-ui/core/colors" :as mui-colors]
    [re-frame.core :as rf]
 
+   [mui-commons.graphed.ui-components :as graphed]
+
    [mui-commons.components :as muic]
    [modelion-spa.ui-components.navigator :refer [Navigator]]))
 
@@ -34,4 +36,5 @@
     {:theme base-theme}
     [:div
      {:style {:padding "10px"}}
+     [graphed/Navigator]
      [Navigator]]]])
