@@ -5,7 +5,6 @@
 
 
 (rf/reg-sub
- :modelion/navigator
+ :modelion/editor-db
  (fn [db _]
-   (get-in db [:modelion/navigator])))
-
+   (get-in db [:modelion/editor-db])))

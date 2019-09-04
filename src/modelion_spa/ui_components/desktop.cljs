@@ -9,7 +9,7 @@
    [mui-commons.graphed.ui-components :as graphed]
 
    [mui-commons.components :as muic]
-   [modelion-spa.ui-components.navigator :refer [Navigator]]))
+   [modelion-spa.ui-components.editor :refer [Editor]]))
 
 
 (def palette
@@ -36,5 +36,6 @@
     {:theme base-theme}
     [:div
      {:style {:padding "10px"}}
-     [graphed/Navigator]
-     [Navigator]]]])
+     [Editor]
+     [:hr]
+     [graphed/Navigator]]]])

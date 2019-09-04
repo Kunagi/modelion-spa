@@ -3,7 +3,7 @@
    [re-frame.core :as rf]
 
    [modelion-spa.model-loader :as model-loader]
-   [modelion-spa.navigator :as navigator]))
+   [modelion-spa.editor-db :as editor-db]))
 
 
 (rf/reg-event-db
@@ -12,19 +12,11 @@
    (let [model-db (model-loader/load-model)]
      (-> db
          (assoc :modelion/model-db model-db)
-         (assoc :modelion/navigator (navigator/new-navigator model-db))))))
+         (assoc :modelion/editor-db (editor-db/new-editor-db))))))
 
 
 (rf/reg-event-db
- :modelion/activate-view
- (fn [db [_ {:keys [view entity-id]}]]
-   (.log js/console view entity-id)
-   (let [model-db (get db :modelion/model-db)]
-     (-> db
-         (update :modelion/navigator navigator/activate-view model-db view entity-id)))))
-
-
-(rf/reg-event-db
- :modelion/expand-entity
- (fn [db [_ {:keys [entity-id]}]]
-   (assoc-in db [:modelion/navigator :expanded-entity-id] entity-id)))
+ :modelion/editor-key-pressed
+ (fn [db [_ key]]
+   (js/console.log "key:" key)
+   db))
